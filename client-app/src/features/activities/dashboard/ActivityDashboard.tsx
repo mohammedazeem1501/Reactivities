@@ -2,7 +2,7 @@
 import React, {  useState } from 'react';
 
 import { Grid } from 'semantic-ui-react';
-import { Activity } from '../../../app/layout/models/activity';
+import { Activity } from '../../../app/models/activity';
 import ActivityDetails from '../details/ActivityDetails';
 import ActivityForm from '../form/ActivityForm';
 import ActivityList from './ActivityList';
@@ -17,11 +17,12 @@ interface Props {
     closeForm: () => void;
     createOrEdit: (activity: Activity) => void;
     deleteActivity: (id:string) => void;
+    submitting: boolean
 }
 
 export default function ActivityDashboard(props: Props) {
     const { activities, selectedActivity,
-         selectActivity, cancelSelectActivity, 
+         selectActivity, cancelSelectActivity, submitting,
          editMode, openForm, closeForm, createOrEdit, deleteActivity } = props;
     // const { loadActivities, activityRegistry, setPagingParams, pagination } = activityStore;
     const [loadingNext, setLoadingNext] = useState(false);
@@ -41,7 +42,9 @@ export default function ActivityDashboard(props: Props) {
             <Grid.Column width='10'>
             <ActivityList activities={activities}
             deleteActivity={deleteActivity}
-            selectActivity={selectActivity}/>
+            selectActivity={selectActivity}
+            submitting={submitting}
+            />
 
             </Grid.Column>
             <Grid.Column width='6'>
@@ -53,8 +56,12 @@ export default function ActivityDashboard(props: Props) {
                 
                 />}
 
-                {editMode && <ActivityForm closeForm={closeForm} 
-                activity={selectedActivity} createOrEdit={createOrEdit}/>}
+                {editMode && 
+                <ActivityForm 
+                closeForm={closeForm} 
+                submitting={submitting}
+                activity={selectedActivity} 
+                createOrEdit={createOrEdit}/>}
             </Grid.Column>
            
         </Grid>

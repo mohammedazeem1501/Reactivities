@@ -2,16 +2,17 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 
 import { Button, Form, Header, Segment } from 'semantic-ui-react';
-import { Activity } from '../../../app/layout/models/activity';
+import { Activity } from '../../../app/models/activity';
 
 interface Props {
     activity: Activity | undefined;
     closeForm: () => void;
     createOrEdit: (activity: Activity) => void;
+    submitting: boolean
 }
 export default function ActivityForm(props: Props) {
     // const history = useHistory();
-     const { activity: selectedActivity, closeForm, createOrEdit } = props;
+     const { activity: selectedActivity, closeForm, createOrEdit, submitting } = props;
 
      const initialState = selectedActivity ?? {
          id: '',
@@ -80,7 +81,7 @@ export default function ActivityForm(props: Props) {
                         <Form.Input placeholder='City'  name='city' value={activity.city}  onChange={handleChangle}/>
                         <Form.Input placeholder='Venue' name='venue' value={activity.venue}  onChange={handleChangle}/>
                         <Button floated='right' positive type='submit' content='Submit' />
-                        <Button onClick={closeForm} to='/activities' floated='right' type='button' content='Cancel' />
+                        <Button loading={submitting} onClick={closeForm} to='/activities' floated='right' type='button' content='Cancel' />
                     </Form>
                 
             
